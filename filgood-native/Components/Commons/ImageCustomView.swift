@@ -12,7 +12,7 @@ struct ImageCustomView: View {
     let width: CGFloat
     let height: CGFloat
     let cornerRadius: CGFloat
-
+    
     var body: some View {
         AsyncImage(url: URL(string: url)) { phase in
             switch phase {
@@ -23,20 +23,16 @@ struct ImageCustomView: View {
                 image
                     .resizable()
                     .scaledToFill()
-                    .frame(width: width, height: height)
-                    .clipped()
-                    .cornerRadius(cornerRadius)
             case .failure:
                 Image(systemName: "person.crop.circle.fill")
                     .resizable()
-                    .scaledToFill()
-                    .frame(width: width, height: height)
-                    .clipped()
-                    .cornerRadius(cornerRadius)
-            @unknown default:
+                    .scaledToFill()            @unknown default:
                 EmptyView()
             }
         }
+        .frame(width: width, height: height)
+        .clipped()
+        .cornerRadius(cornerRadius)
     }
 }
 
