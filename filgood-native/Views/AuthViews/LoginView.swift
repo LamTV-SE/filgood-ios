@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct LoginView: View {
-    @State private var username: String = ""
+    @State private var email: String = ""
     @State private var password: String = ""
     @State private var isRemember: Bool = false
     
@@ -20,12 +20,12 @@ struct LoginView: View {
                     .scaledToFit()
                     .frame(width: 100)
                 VStack(spacing: 30) {
-                    Text("S'inscrire")
+                    Text("Se connecter")
                         .font(.customFont(name: FontName.raleway, size: 22, weightValue: 700))
                         .foregroundColor(Color(hex: "#040415"))
                     VStack(spacing: 15) {
                         VStack(spacing: 10) {
-                            InputCustomView(title: nil, placeholder: "Entrez votre e-mail", iconLeft: "emailGreen16", isPasswordInput: false, text: $username)
+                            InputCustomView(title: nil, placeholder: "Entrez votre e-mail", iconLeft: "emailGreen16", isPasswordInput: false, text: $email)
                             InputCustomView(title: nil, placeholder: "Entrez votre mot de passe", iconLeft: "lockGreen16", isPasswordInput: false, text: $password)
                         }
                         HStack {
