@@ -11,7 +11,7 @@ struct LoginView: View {
     @State private var email: String = ""
     @State private var password: String = ""
     @State private var isRemember: Bool = false
-    
+
     var body: some View {
         ZStack {
             VStack(spacing: 20) {
@@ -33,11 +33,11 @@ struct LoginView: View {
                             Spacer()
                             Text("Mot de passe oublié ?")
                                 .font(.customFont(name: FontName.raleway, size: 12, weightValue: 600))
-                                .foregroundColor(Color(hex: "#7CA072"))
+                                .foregroundColor(Color(hex: AppColor.secondary))
                         }
                         ButtonCustomView(title: "Se connecter", icon: nil)
                     }
-                    HStack (spacing: 12) {
+                    HStack(spacing: 12) {
                         Rectangle()
                             .frame(height: 1)
                             .foregroundStyle(Color(hex: "#E9E9E9"))
@@ -50,18 +50,18 @@ struct LoginView: View {
                             .frame(height: 1)
                             .foregroundStyle(Color(hex: "#E9E9E9"))
                     }
-                    HStack (spacing: 10) {
+                    HStack(spacing: 10) {
                         ButtonCustomView(title: nil, icon: "google20", borderWidth: 1, backgroundColor: "#FFFFFF", paddingVertical: 15)
                         ButtonCustomView(title: nil, icon: "apple20", borderWidth: 1, backgroundColor: "#FFFFFF", paddingVertical: 15)
                     }
                     Spacer()
-                    HStack (spacing: 4) {
+                    HStack(spacing: 4) {
                         Text("Vous avez déjà un compte ?")
                             .font(.customFont(name: FontName.raleway, size: 14, weightValue: 400))
                             .foregroundColor(Color(hex: "#040415"))
                         Text("Connectez-vous.")
                             .font(.customFont(name: FontName.raleway, size: 14, weightValue: 600))
-                            .foregroundColor(Color(hex: "#7CA072"))
+                            .foregroundColor(Color(hex: AppColor.secondary))
                     }
                 }
                 .padding(.top, 30)
@@ -79,7 +79,7 @@ struct LoginView: View {
             }
         }
         .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
-        .background(Color(hex: "#B5D07E"))
+        .background(Color(hex: AppColor.primary))
     }
 }
 

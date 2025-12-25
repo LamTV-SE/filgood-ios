@@ -118,6 +118,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 0443B5712EFBC8D700E8E0B7 /* Build configuration list for PBXNativeTarget "filgood-native" */;
 			buildPhases = (
+				04ABC1422EFCE2F90074E6F7 /* Format & Lint */,
 				0443B5492EFBC8D500E8E0B7 /* Sources */,
 				0443B54A2EFBC8D500E8E0B7 /* Frameworks */,
 				0443B54B2EFBC8D500E8E0B7 /* Resources */,
@@ -250,6 +251,27 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		04ABC1422EFCE2F90074E6F7 /* Format & Lint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Format & Lint";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "export PATH=\"/opt/homebrew/bin:/usr/local/bin:$PATH\"\n\necho \"⚙️ Running SwiftFormat...\"\nswiftformat \"$SRCROOT/filgood-native\"\n\necho \"🔍 Running SwiftLint...\"\nswiftlint \"$SRCROOT/filgood-native\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		0443B5492EFBC8D500E8E0B7 /* Sources */ = {
@@ -419,6 +441,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"filgood-native/Preview Content\"";
 				DEVELOPMENT_TEAM = CX2M4X7ZXY;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "filgood-native/Info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -451,6 +474,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"filgood-native/Preview Content\"";
 				DEVELOPMENT_TEAM = CX2M4X7ZXY;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "filgood-native/Info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;

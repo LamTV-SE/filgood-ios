@@ -8,20 +8,20 @@
 import SwiftUI
 
 struct InputCustomView: View {
-    var title: String?;
-    var placeholder: String = "";
-    var isRequired: Bool? = true;
+    var title: String?
+    var placeholder: String = ""
+    var isRequired: Bool? = true
     var iconLeft: String?
     var isPasswordInput: Bool = false
-    
+
     @FocusState private var isFocused: Bool
-    
+
     @Binding var text: String
     @State private var isShowPassword = false
-    
+
     var body: some View {
-        VStack(alignment: .leading, spacing: 5){
-            if let title = title {
+        VStack(alignment: .leading, spacing: 5) {
+            if let title {
                 HStack {
                     Text(title)
                         .font(.customFont(name: FontName.raleway, size: 14, weightValue: 700))
@@ -33,8 +33,8 @@ struct InputCustomView: View {
             } else {
                 EmptyView()
             }
-            HStack (spacing: 9) {
-                if let iconLeft = iconLeft {
+            HStack(spacing: 9) {
+                if let iconLeft {
                     Image(iconLeft)
                         .resizable()
                         .scaledToFit()
@@ -65,7 +65,7 @@ struct InputCustomView: View {
                             .foregroundColor(Color(hex: "#040415"))
                     }
                 }
-                
+
                 if isPasswordInput == true {
                     Button {
                         isShowPassword.toggle()
@@ -87,16 +87,20 @@ struct InputCustomView: View {
                     .stroke(Color(hex: "#E9E9E9"), lineWidth: 1)
             )
         }
-        
     }
 }
 
 #Preview {
     @Previewable @State var text = ""
-    
+
     ZStack {
-        InputCustomView(title: "Identifiant", placeholder: "Entrez votre e-mail", iconLeft: "emailGreen16", isPasswordInput: false, text: $text)
-            .padding()
+        InputCustomView(
+            title: "Identifiant",
+            placeholder: "Entrez votre e-mail",
+            iconLeft: "emailGreen16",
+            isPasswordInput: false,
+            text: $text
+        )
+        .padding()
     }
 }
-

@@ -1,0 +1,53 @@
+# Paths
+included:
+  - filgood-native
+excluded:
+  - Pods
+  - Carthage
+  - DerivedData
+  - .build
+
+# Disable rules gây khó chịu
+disabled_rules:
+  - trailing_whitespace
+  - force_cast
+  - force_try
+  - identifier_name
+  - type_name
+
+# Opt-in rules (rất nên bật)
+opt_in_rules:
+  - empty_count
+  - closure_spacing
+  - explicit_init
+  - fatal_error_message
+  - first_where
+  - redundant_nil_coalescing
+  - sorted_imports
+
+# Line length
+line_length:
+  warning: 140
+  error: 200
+  ignores_comments: true
+  ignores_urls: true
+
+# Naming
+function_parameter_count:
+  warning: 6
+  error: 8
+
+type_body_length:
+  warning: 300
+  error: 400
+
+file_length:
+  warning: 500
+  error: 800
+
+# Custom rules (SwiftUI-friendly)
+custom_rules:
+  empty_line_after_guard:
+    regex: 'guard[^{]*\{[^\}]*\}'
+    message: "Nên có empty line sau guard"
+    severity: warning

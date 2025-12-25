@@ -12,21 +12,21 @@ struct ButtonCustomView: View {
     var disable: Bool? = false
     var icon: String?
     var borderWidth: CGFloat = 0
-    var backgroundColor: String = "#7CA072"
+    var backgroundColor: String = AppColor.secondary
     var paddingVertical: CGFloat = 18
-    
+
     var body: some View {
         Button {
             print("Button tapped!")
         } label: {
-            HStack (spacing: 12) {
-                if let icon = icon {
+            HStack(spacing: 12) {
+                if let icon {
                     Image(icon)
                         .resizable()
                         .scaledToFit()
                         .frame(width: 18, height: 18)
                 }
-                if let title = title {
+                if let title {
                     Text(title)
                         .font(.customFont(name: FontName.raleway, size: 14, weightValue: 700))
                         .foregroundColor((disable ?? false) ? Color(hex: "#BAB5C1") : .white)
