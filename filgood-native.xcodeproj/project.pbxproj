@@ -269,7 +269,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "export PATH=\"/opt/homebrew/bin:/usr/local/bin:$PATH\"\n\necho \"⚙️ Running SwiftFormat...\"\nswiftformat \"$SRCROOT/filgood-native\"\n\necho \"🔍 Running SwiftLint...\"\nswiftlint \"$SRCROOT/filgood-native\"\n";
+			shellScript = "export PATH=\"/opt/homebrew/bin:/usr/local/bin:$PATH\"\n\necho \"⚙️ Running SwiftFormat...\"\nswiftformat .\n\necho \"🔍 Running SwiftLint...\"\nswiftlint .\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
