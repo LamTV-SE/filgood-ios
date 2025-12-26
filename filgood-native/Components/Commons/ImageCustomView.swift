@@ -7,32 +7,52 @@
 
 import SwiftUI
 
+class ImageCache {
+    static let shared = NSCache<NSString, UIImage>()
+}
+
 struct ImageCustomView: View {
     let url: String
     let width: CGFloat
     let height: CGFloat
     let cornerRadius: CGFloat
     
+    @State private var uiImage: UIImage? = nil
+    
     var body: some View {
-        AsyncImage(url: URL(string: url)) { phase in
-            switch phase {
-            case .empty:
-                ProgressView()
-                    .frame(width: width, height: width)
-            case let .success(image):
-                image
+        Group {
+            if let img = uiImage {
+                Image(uiImage: img)
                     .resizable()
                     .scaledToFill()
-            case .failure:
-                Image(systemName: "person.crop.circle.fill")
-                    .resizable()
-                    .scaledToFill()            @unknown default:
-                EmptyView()
+            } else {
+                ProgressView()
+                    .frame(width: width, height: height)
+                    .onAppear {
+                        loadImage()
+                    }
             }
         }
         .frame(width: width, height: height)
-        .clipped()
         .cornerRadius(cornerRadius)
+    }
+    
+    private func loadImage() {
+        if let cached = ImageCache.shared.object(forKey: url as NSString) {
+            uiImage = cached
+            return
+        }
+        
+        guard let imageURL = URL(string: url) else { return }
+        
+        URLSession.shared.dataTask(with: imageURL) {data, _, _ in
+            if let data = data, let img = UIImage(data: data) {
+                ImageCache.shared.setObject(img, forKey: url as NSString)
+                DispatchQueue.main.sync {
+                    uiImage = img
+                }
+            }
+        }.resume()
     }
 }
 

@@ -8,7 +8,11 @@
 import SwiftUI
 
 struct ProductHorizontalListView: View {
-    private var products: [Int] = [1,2,3,4,5]
+    let namespace: Namespace.ID
+    @Binding var selectedProduct: Int?
+    
+    let products: [Int] = [1,2,3,4,5]
+    
     var body: some View {
         VStack(spacing: 8) {
             HStack {
@@ -25,6 +29,7 @@ struct ProductHorizontalListView: View {
                 LazyHStack(spacing: 11) {
                     ForEach(products, id: \.self) { product in
                         productItemView(product: product)
+                            .id(product)
                     }
                 }
             }
@@ -35,11 +40,14 @@ struct ProductHorizontalListView: View {
     @ViewBuilder
     private func productItemView(product: Int) -> some View {
         Button {
-            // navigate to product detail
+            withAnimation(.spring(response: 0.45, dampingFraction: 1)) {
+                selectedProduct = product
+            }
         } label: {
             VStack {
                 ImageCustomView(url: "https://api.ia-arena.ruji.fr//storage//profile_pictures//z3ecLNKDz2m3NsSd3M5X8ejhduF4qyW7A7fMFzb8.jpg", width: 179, height: 127, cornerRadius: 10)
                     .padding(.bottom, 8)
+                    .matchedGeometryEffect(id: "product-image-\(product)", in: namespace)
                 VStack(spacing: 6) {
                     HStack {
                         Text("Mohair Rose")
@@ -77,6 +85,7 @@ struct ProductHorizontalListView: View {
 }
 
 #Preview(traits: .sizeThatFitsLayout) {
-    ProductHorizontalListView()
+    
+    ProductHorizontalListView(namespace: Namespace().wrappedValue,                              selectedProduct: .constant(nil))
         .padding()
 }
