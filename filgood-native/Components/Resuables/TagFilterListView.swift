@@ -29,7 +29,7 @@ struct TagFilterListView: View {
         } label: {
             Text(tag)
                 .font(.customFont(name: FontName.raleway, size: 13, weightValue: selectedTag == tag ? 700 : 500))
-                .foregroundColor(Color(hex: selectedTag == tag ? AppColor.secondary : "#040415"))
+                .foregroundColor(Color(hex: selectedTag == tag ? AppColor.secondary :  AppColor.textBlack))
                 .padding(.vertical, 11)
                 .padding(.horizontal, 17)
                 .background(

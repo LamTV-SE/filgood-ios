@@ -34,7 +34,7 @@ struct CheckBoxCustomView: View {
 
                 if let label {
                     Text(label)
-                        .foregroundColor(Color(hex: "#040415"))
+                        .foregroundColor(Color(hex: AppColor.textBlack))
                         .font(.customFont(name: FontName.raleway, size: 12, weightValue: 400))
                 }
             }

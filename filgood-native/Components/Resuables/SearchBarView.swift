@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SearchBarView: View {
     var placeholder: String = "Rechercher..."
-
+    
     @FocusState private var isFocused: Bool
 
     @Binding var text: String
@@ -32,7 +32,7 @@ struct SearchBarView: View {
                         TextField(placeholder, text: $text)
                             .focused($isFocused)
                             .font(.customFont(name: FontName.raleway, size: 14, weightValue: 400))
-                            .foregroundColor(Color(hex: "#040415"))
+                            .foregroundColor(Color(hex:  AppColor.textBlack))
                     }
                 }
                 Spacer()

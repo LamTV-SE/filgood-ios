@@ -9,14 +9,17 @@ import SwiftUI
 
 struct DashboardView: View {
     @State private var selectedTab: Tab = .home
+    @State private var selectedProduct: Int? = nil
 
     var body: some View {
-        VStack {
+        ZStack(alignment: .bottom) {
             pageView
-
-            Spacer()
-
-            CustomTabBarView(selectedTab: $selectedTab)
+                .frame(maxHeight: .infinity)
+            
+            if selectedProduct == nil {
+                CustomTabBarView(selectedTab: $selectedTab)
+                    .transition(.move(edge: .bottom))
+            }
         }
         .ignoresSafeArea(edges: .bottom)
         .background(Color.white)
@@ -26,7 +29,7 @@ struct DashboardView: View {
     private var pageView: some View {
         Group {
             switch selectedTab {
-            case .home: HomeView()
+            case .home: HomeView(selectedProduct: $selectedProduct)
             case .search: Text("Search")
             case .favourite: Text("Favourite")
             case .chat: Text("Chat")

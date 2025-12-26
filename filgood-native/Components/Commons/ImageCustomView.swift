@@ -15,7 +15,7 @@ struct ImageCustomView: View {
     let url: String
     let width: CGFloat
     let height: CGFloat
-    let cornerRadius: CGFloat
+    let cornerRadius: CGFloat?
 
     @State private var uiImage: UIImage? = nil
 
@@ -34,7 +34,7 @@ struct ImageCustomView: View {
             }
         }
         .frame(width: width, height: height)
-        .cornerRadius(cornerRadius)
+        .cornerRadius(cornerRadius ?? 0)
     }
 
     private func loadImage() {
@@ -48,7 +48,7 @@ struct ImageCustomView: View {
         URLSession.shared.dataTask(with: imageURL) { data, _, _ in
             if let data, let img = UIImage(data: data) {
                 ImageCache.shared.setObject(img, forKey: url as NSString)
-                DispatchQueue.main.sync {
+                DispatchQueue.main.async {
                     uiImage = img
                 }
             }

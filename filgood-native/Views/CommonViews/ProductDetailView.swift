@@ -11,48 +11,79 @@ struct ProductDetailView: View {
     let product: Int
     let namespace: Namespace.ID
     let onClose: () -> Void
-
+    
     @State private var animateContent = false
-
+    @State private var currentImage: Int? = 0
+    
     private let screenWidth = UIScreen.main.bounds.width
-
+    private let totalImages = 3
+    private let images: [String] = ["https://api.ia-arena.ruji.fr//storage//profile_pictures//z3ecLNKDz2m3NsSd3M5X8ejhduF4qyW7A7fMFzb8.jpg", "https://api.ia-arena.ruji.fr/storage/fakes/fake_7.jpeg", "https://api.ia-arena.ruji.fr/storage/profile_pictures/eLZ8StTyTHGTxmey8srJqp4t6xu6YchqL4rYD4az.jpg"]
+    
     var body: some View {
-        VStack {
-            ZStack(alignment: .top) {
-                headerView()
-
+        VStack(spacing: 0) {
+            headerView()
+            ScrollView(.vertical, showsIndicators: false) {
                 VStack(spacing: 11) {
-                    Spacer().frame(height: 327)
-
+                    Spacer().frame(height: 18)
                     titleAndQuantityView()
-
                     informationView()
                 }
-                .padding(.horizontal, 15)
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .background(.white)
-                .offset(x: animateContent ? 0 : screenWidth)
-                .opacity(animateContent ? 1 : 0)
-                Spacer()
             }
+            .zIndex(12)
+            .padding(.top, 0)
+            .padding(.horizontal, 15)
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background(.white)
+            .clipShape(
+                .rect(
+                    topLeadingRadius: 20,
+                    topTrailingRadius: 20
+                )
+            )
+            .offset(x: animateContent ? 0 : screenWidth, y: 0)
+            .opacity(animateContent ? 1 : 0)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(.white)
-        .ignoresSafeArea(.all, edges: .top)
+        .safeAreaInset(edge: .bottom, content: {
+            VStack(spacing: 0) {
+                Divider().background(Color(hex: "#E9E9E9"))
+                    .frame(maxWidth: .infinity)
+                ButtonCustomView(title: "Acheter")
+                    .padding(.top, 13)
+                    .padding(.bottom, 50)
+                    .padding(.horizontal, 15)
+                    .background(.white)
+            }
+        })
+        .ignoresSafeArea(.all, edges: .vertical)
         .onAppear {
             withAnimation(.easeOut(duration: 0.3)) {
                 animateContent = true
             }
         }
     }
-
+    
     @ViewBuilder
     private func headerView() -> some View {
         ZStack(alignment: .top) {
-            ImageCustomView(url: "https://api.ia-arena.ruji.fr//storage//profile_pictures//z3ecLNKDz2m3NsSd3M5X8ejhduF4qyW7A7fMFzb8.jpg", width: screenWidth, height: 327, cornerRadius: 0)
-                .padding(.bottom, 8)
-                .matchedGeometryEffect(id: "product-image-\(product)", in: namespace)
-                .transition(.opacity)
+            ScrollView(.horizontal, showsIndicators: false) {
+                LazyHStack(spacing: 0) {
+                    ForEach(Array(images.enumerated()), id: \.offset) { index, image in
+                        ImageCustomView(url: image, width: screenWidth, height: 327, cornerRadius: 0)
+                            .containerRelativeFrame(.horizontal)
+                            .id(index)
+                    }
+                }
+            }
+            .scrollTargetLayout()
+            .scrollTargetBehavior(.paging)
+            .scrollPosition(id: $currentImage)
+            .frame(height: 327)
+            .padding(.bottom, -28)
+            .matchedGeometryEffect(id: "product-image-\(product)", in: namespace)
+            .transition(.opacity)
+            
             HStack {
                 Button {
                     onClose()
@@ -65,21 +96,40 @@ struct ProductDetailView: View {
                 .frame(width: 42, height: 42)
                 .background(Color.black.opacity(0.3))
                 .clipShape(Circle())
-
                 Spacer()
+                Button {
+                    // to do favourite
+                } label: {
+                    Image("heart24")
+                }
+                .frame(width: 46, height: 46)
+                .background(.white)
+                .clipShape(Circle())
             }
             .padding(.top, 60)
             .padding(.horizontal, 15)
+            HStack(spacing: 7) {
+                ForEach(0..<totalImages, id: \.self) { index in
+                    Capsule()
+                        .fill(currentImage == index ? .white : .white.opacity(0.6))
+                        .frame(width: currentImage == index ? 18 : 12, height: 6)
+                        .animation(
+                            .easeInOut(duration: 0.25),
+                            value: currentImage
+                        )
+                }
+            }
+            .padding(.top, 283)
         }
         .zIndex(10)
     }
-
+    
     @ViewBuilder
     private func titleAndQuantityView() -> some View {
         HStack {
             Text("Mohair Rose")
                 .font(.customFont(name: FontName.raleway, size: 23, weightValue: 600))
-                .foregroundStyle(Color(hex: "#040415"))
+                .foregroundStyle(Color(hex:  AppColor.textBlack))
             Spacer()
             Text("7€")
                 .font(.customFont(name: FontName.raleway, size: 23, weightValue: 700))
@@ -109,7 +159,7 @@ struct ProductDetailView: View {
                     .frame(height: 34)
                 Text("1")
                     .font(.customFont(name: FontName.raleway, size: 15, weightValue: 600))
-                    .foregroundColor(Color(hex: "#040415"))
+                    .foregroundColor(Color(hex:  AppColor.textBlack))
                     .frame(width: 40)
                 Divider()
                     .background(Color(hex: "#E9E9E9"))
@@ -125,7 +175,7 @@ struct ProductDetailView: View {
             }
         }
     }
-
+    
     @ViewBuilder
     private func informationView() -> some View {
         Text("Lot de 3 pelotes Mohair couleur Sauge, bain #314. Jamais utilisées. Idéal pour un cardigan léger. Trocs bienvenus (alpaga gris, coton écru).")
@@ -140,7 +190,7 @@ struct ProductDetailView: View {
                         .foregroundColor(Color(hex: "#7E7F7E"))
                     Text("Drops")
                         .font(.customFont(name: FontName.raleway, size: 14, weightValue: 500))
-                        .foregroundColor(Color(hex: "#040415"))
+                        .foregroundColor(Color(hex:  AppColor.textBlack))
                 }
                 .frame(width: 134, alignment: .leading)
                 VStack(alignment: .leading, spacing: 5) {
@@ -149,7 +199,7 @@ struct ProductDetailView: View {
                         .foregroundColor(Color(hex: "#7E7F7E"))
                     Text("72% Mohair")
                         .font(.customFont(name: FontName.raleway, size: 14, weightValue: 500))
-                        .foregroundColor(Color(hex: "#040415"))
+                        .foregroundColor(Color(hex:  AppColor.textBlack))
                 }
                 Spacer()
             }
@@ -160,7 +210,7 @@ struct ProductDetailView: View {
                         .foregroundColor(Color(hex: "#7E7F7E"))
                     Text("50g")
                         .font(.customFont(name: FontName.raleway, size: 14, weightValue: 500))
-                        .foregroundColor(Color(hex: "#040415"))
+                        .foregroundColor(Color(hex:  AppColor.textBlack))
                 }
                 .frame(width: 134, alignment: .leading)
                 VStack(alignment: .leading, spacing: 5) {
@@ -169,7 +219,7 @@ struct ProductDetailView: View {
                         .foregroundColor(Color(hex: "#7E7F7E"))
                     Text("Main propre ou envoi")
                         .font(.customFont(name: FontName.raleway, size: 14, weightValue: 500))
-                        .foregroundColor(Color(hex: "#040415"))
+                        .foregroundColor(Color(hex: AppColor.textBlack))
                 }
                 Spacer()
             }
@@ -181,13 +231,19 @@ struct ProductDetailView: View {
             RoundedRectangle(cornerRadius: 12)
                 .stroke(Color(hex: "#E9E9E9"), lineWidth: 1)
         }
-        Spacer()
+        VStack(spacing: 29) {
+            ButtonCustomView(title: "Contacter le vendeur")
+            InformationOwner_ProductDetail()
+            ReviewProduct_ProductDetail()
+            PaymentView_ProductDetail()
+            SimilarProduct_ProductDetail()
+        }
     }
 }
 
 struct ProductDetailView_Previews: PreviewProvider {
     @Namespace static var namespace
-
+    
     static var previews: some View {
         ProductDetailView(
             product: 1,

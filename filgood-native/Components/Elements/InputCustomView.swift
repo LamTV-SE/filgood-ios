@@ -51,18 +51,18 @@ struct InputCustomView: View {
                             TextField(placeholder, text: $text)
                                 .focused($isFocused)
                                 .font(.customFont(name: FontName.raleway, size: 14, weightValue: 400))
-                                .foregroundColor(Color(hex: "#040415"))
+                                .foregroundColor(Color(hex: AppColor.textBlack))
                         } else {
                             SecureField(placeholder, text: $text)
                                 .focused($isFocused)
                                 .font(.customFont(name: FontName.raleway, size: 14, weightValue: 400))
-                                .foregroundColor(Color(hex: "#040415"))
+                                .foregroundColor(Color(hex:  AppColor.textBlack))
                         }
                     } else {
                         TextField(placeholder, text: $text)
                             .focused($isFocused)
                             .font(.customFont(name: FontName.raleway, size: 14, weightValue: 400))
-                            .foregroundColor(Color(hex: "#040415"))
+                            .foregroundColor(Color(hex:  AppColor.textBlack))
                     }
                 }
 

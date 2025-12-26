@@ -22,7 +22,7 @@ struct SigninView: View {
                 VStack(spacing: 30) {
                     Text("S'inscrire")
                         .font(.customFont(name: FontName.raleway, size: 22, weightValue: 700))
-                        .foregroundColor(Color(hex: "#040415"))
+                        .foregroundColor(Color(hex:  AppColor.textBlack))
                     VStack(spacing: 15) {
                         VStack(spacing: 10) {
                             InputCustomView(title: nil, placeholder: "Entrez votre e-mail", iconLeft: "emailGreen16", isPasswordInput: false, text: $email)
@@ -52,7 +52,7 @@ struct SigninView: View {
                     HStack(spacing: 4) {
                         Text("Vous avez déjà un compte ?")
                             .font(.customFont(name: FontName.raleway, size: 14, weightValue: 400))
-                            .foregroundColor(Color(hex: "#040415"))
+                            .foregroundColor(Color(hex:  AppColor.textBlack))
                         Text("Connectez-vous.")
                             .font(.customFont(name: FontName.raleway, size: 14, weightValue: 600))
                             .foregroundColor(Color(hex: AppColor.secondary))

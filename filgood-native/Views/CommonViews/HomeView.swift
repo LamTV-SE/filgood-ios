@@ -11,7 +11,7 @@ struct HomeView: View {
     @State private var searchValue: String = ""
 
     @Namespace private var productNamespace
-    @State private var selectedProduct: Int? = nil
+    @Binding var selectedProduct: Int?
 
     private var headerView: some View {
         VStack(spacing: 29) {
@@ -70,7 +70,6 @@ struct HomeView: View {
         }
         .background(Color(hex: AppColor.secondary))
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .ignoresSafeArea(.all, edges: .bottom)
     }
 
     var body: some View {
@@ -86,9 +85,11 @@ struct HomeView: View {
                 .zIndex(20)
             }
         }
+        .ignoresSafeArea(.all, edges: .bottom)
     }
 }
 
 #Preview {
-    HomeView()
+    @Previewable @State var selectedProduct: Int?
+    HomeView(selectedProduct: $selectedProduct)
 }

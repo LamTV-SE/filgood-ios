@@ -18,7 +18,7 @@ struct ProductHorizontalListView: View {
             HStack {
                 Text("Près de chez vous")
                     .font(.customFont(name: FontName.raleway, size: 16, weightValue: 600))
-                    .foregroundStyle(Color(hex: "#040415"))
+                    .foregroundStyle(Color(hex:  AppColor.textBlack))
                 Spacer()
                 Text("Tout voir")
                     .font(.customFont(name: FontName.raleway, size: 14, weightValue: 700))
@@ -52,7 +52,7 @@ struct ProductHorizontalListView: View {
                     HStack {
                         Text("Mohair Rose")
                             .font(.customFont(name: FontName.raleway, size: 14, weightValue: 600))
-                            .foregroundColor(Color(hex: "#040415"))
+                            .foregroundColor(Color(hex:  AppColor.textBlack))
                         Spacer()
                         Text("8€")
                             .font(.customFont(name: FontName.raleway, size: 14, weightValue: 600))
