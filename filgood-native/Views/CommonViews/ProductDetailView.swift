@@ -169,7 +169,7 @@ struct ProductDetailView: View {
         .background(.white)
         .ignoresSafeArea(.all, edges: .top)
         .onAppear {
-            withAnimation(.easeOut(duration: 0.5)) {
+            withAnimation(.easeOut(duration: 0.3)) {
                 animateContent = true
             }
         }

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		04007C2B2EFE3FB100E220C7 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 04007C2A2EFE3FA800E220C7 /* .gitignore */; };
 		0455DBBB2EFBFDD00015CF0E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0455DBBA2EFBFDD00015CF0E /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
 
@@ -28,6 +29,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		04007C292EFE3F5500E220C7 /* dev.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = dev.xcconfig; sourceTree = "<group>"; };
+		04007C2A2EFE3FA800E220C7 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		0443B54D2EFBC8D500E8E0B7 /* filgood-native.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "filgood-native.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0443B55D2EFBC8D700E8E0B7 /* filgood-nativeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "filgood-nativeTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0443B5672EFBC8D700E8E0B7 /* filgood-nativeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "filgood-nativeUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -90,9 +93,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		04007C282EFE3F2800E220C7 /* Configurations */ = {
+			isa = PBXGroup;
+			children = (
+				04007C292EFE3F5500E220C7 /* dev.xcconfig */,
+			);
+			path = Configurations;
+			sourceTree = "<group>";
+		};
 		0443B5442EFBC8D500E8E0B7 = {
 			isa = PBXGroup;
 			children = (
+				04007C2A2EFE3FA800E220C7 /* .gitignore */,
+				04007C282EFE3F2800E220C7 /* Configurations */,
 				0455DBBA2EFBFDD00015CF0E /* LaunchScreen.storyboard */,
 				0443B54F2EFBC8D500E8E0B7 /* filgood-native */,
 				0443B5602EFBC8D700E8E0B7 /* filgood-nativeTests */,
@@ -233,6 +246,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0455DBBB2EFBFDD00015CF0E /* LaunchScreen.storyboard in Resources */,
+				04007C2B2EFE3FB100E220C7 /* .gitignore in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
