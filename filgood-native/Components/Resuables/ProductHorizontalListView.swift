@@ -10,9 +10,9 @@ import SwiftUI
 struct ProductHorizontalListView: View {
     let namespace: Namespace.ID
     @Binding var selectedProduct: Int?
-    
-    let products: [Int] = [1,2,3,4,5]
-    
+
+    let products: [Int] = [1, 2, 3, 4, 5]
+
     var body: some View {
         VStack(spacing: 8) {
             HStack {
@@ -21,10 +21,10 @@ struct ProductHorizontalListView: View {
                     .foregroundStyle(Color(hex: "#040415"))
                 Spacer()
                 Text("Tout voir")
-                    .font(.customFont(name: FontName.raleway, size:14, weightValue: 700))
+                    .font(.customFont(name: FontName.raleway, size: 14, weightValue: 700))
                     .foregroundStyle(Color(hex: AppColor.secondary))
             }
-            
+
             ScrollView(.horizontal, showsIndicators: false) {
                 LazyHStack(spacing: 11) {
                     ForEach(products, id: \.self) { product in
@@ -36,7 +36,7 @@ struct ProductHorizontalListView: View {
             .frame(height: 214)
         }
     }
-    
+
     @ViewBuilder
     private func productItemView(product: Int) -> some View {
         Button {
@@ -85,7 +85,6 @@ struct ProductHorizontalListView: View {
 }
 
 #Preview(traits: .sizeThatFitsLayout) {
-    
-    ProductHorizontalListView(namespace: Namespace().wrappedValue,                              selectedProduct: .constant(nil))
+    ProductHorizontalListView(namespace: Namespace().wrappedValue, selectedProduct: .constant(nil))
         .padding()
 }

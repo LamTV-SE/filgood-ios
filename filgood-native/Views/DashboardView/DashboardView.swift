@@ -9,21 +9,19 @@ import SwiftUI
 
 struct DashboardView: View {
     @State private var selectedTab: Tab = .home
-    
-    
-    
+
     var body: some View {
-        VStack() {
+        VStack {
             pageView
-            
+
             Spacer()
-            
+
             CustomTabBarView(selectedTab: $selectedTab)
         }
         .ignoresSafeArea(edges: .bottom)
         .background(Color.white)
     }
-    
+
     @ViewBuilder
     private var pageView: some View {
         Group {

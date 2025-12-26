@@ -10,7 +10,7 @@ import SwiftUI
 struct TagFilterListView: View {
     private var tags: [String] = ["Tout", "Pelotes & fils", "Patrons", "Aiguilles"]
     @State private var selectedTag: String = "Tout"
-    
+
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             LazyHStack(spacing: 10) {
@@ -21,7 +21,7 @@ struct TagFilterListView: View {
         }
         .frame(height: 38)
     }
-    
+
     @ViewBuilder
     private func tagItemView(tag: String) -> some View {
         Button {

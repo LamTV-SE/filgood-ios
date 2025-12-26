@@ -9,10 +9,10 @@ import SwiftUI
 
 struct HomeView: View {
     @State private var searchValue: String = ""
-    
+
     @Namespace private var productNamespace
     @State private var selectedProduct: Int? = nil
-    
+
     private var headerView: some View {
         VStack(spacing: 29) {
             HStack {
@@ -37,7 +37,7 @@ struct HomeView: View {
         }
         .padding(.horizontal, 15)
     }
-    
+
     private var mainView: some View {
         ZStack(alignment: .top) {
             SearchBarView(text: $searchValue)
@@ -56,7 +56,6 @@ struct HomeView: View {
                         }
                     }
                     .background(Color(hex: "#FAFAFA"))
-                    
                 }
                 .padding(.top, 35)
                 .padding(.horizontal, 15)
@@ -73,11 +72,11 @@ struct HomeView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .ignoresSafeArea(.all, edges: .bottom)
     }
-    
+
     var body: some View {
         ZStack {
             mainView
-            
+
             if let product = selectedProduct {
                 ProductDetailView(product: product, namespace: productNamespace, onClose: {
                     withAnimation(.spring(response: 0.3, dampingFraction: 1)) {

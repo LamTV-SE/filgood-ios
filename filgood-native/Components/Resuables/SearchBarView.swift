@@ -7,16 +7,14 @@
 
 import SwiftUI
 
-import SwiftUI
-
 struct SearchBarView: View {
     var placeholder: String = "Rechercher..."
-    
+
     @FocusState private var isFocused: Bool
-    
+
     @Binding var text: String
     @State private var isShowPassword = false
-    
+
     var body: some View {
         VStack(alignment: .leading, spacing: 5) {
             HStack {
@@ -66,7 +64,7 @@ struct SearchBarView: View {
 
 #Preview(traits: .sizeThatFitsLayout) {
     @Previewable @State var text = ""
-    
+
     ZStack {
         SearchBarView(
             text: $text
@@ -74,4 +72,3 @@ struct SearchBarView: View {
         .padding()
     }
 }
-
