@@ -30,7 +30,7 @@ struct DashboardView: View {
         Group {
             switch selectedTab {
             case .home: HomeView(selectedProduct: $selectedProduct)
-            case .search: Text("Search")
+            case .search: SearchView()
             case .favourite: Text("Favourite")
             case .chat: Text("Chat")
             case .profile: Text("Profile")
