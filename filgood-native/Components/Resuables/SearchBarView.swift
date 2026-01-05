@@ -10,6 +10,7 @@ import SwiftUI
 struct SearchBarView: View {
     var backgroundInput: String = "#FFFFFF"
     var placeholder: String = "Rechercher..."
+    var isShowFilter: Bool = true
     
     @FocusState private var isFocused: Bool
     
@@ -35,11 +36,13 @@ struct SearchBarView: View {
                         .foregroundColor(Color(hex:  AppColor.textBlack))
                 }
             }
-            Spacer()
-            Image("filterGreen20")
-                .resizable()
-                .scaledToFit()
-                .frame(width: 20)
+            if isShowFilter == true {
+                Spacer()
+                Image("filterGreen20")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 20)
+            }
         }
         .onTapGesture {
             isFocused = true

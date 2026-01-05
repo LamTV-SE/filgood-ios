@@ -13,6 +13,7 @@ struct ButtonCustomView: View {
     var icon: String?
     var borderWidth: CGFloat = 0
     var backgroundColor: String = AppColor.secondary
+    var textColor: String = "#FFFFFF"
     var paddingVertical: CGFloat = 18
 
     var body: some View {
@@ -29,7 +30,7 @@ struct ButtonCustomView: View {
                 if let title {
                     Text(title)
                         .font(.customFont(name: FontName.raleway, size: 14, weightValue: 700))
-                        .foregroundColor((disable ?? false) ? Color(hex: "#BAB5C1") : .white)
+                        .foregroundColor((disable ?? false) ? Color(hex: "#BAB5C1") : Color(hex: textColor))
                 }
             }
             .frame(maxWidth: .infinity)
