@@ -1,50 +1,50 @@
 //
-//  FilterBrandView.swift
+//  FilterWireColorView.swift
 //  filgood-native
 //
-//  Created by Van Lam on 5/1/26.
+//  Created by Van Lam on 6/1/26.
 //
 
 import SwiftUI
 
-fileprivate struct Brand: Identifiable {
+fileprivate struct WireColor: Identifiable {
     let id = UUID()
     let name: String
+    let color: String
     var isChecked: Bool
 }
 
-struct FilterBrandView: View {
+struct FilterWireColorView: View {
     @State private var search: String = ""
     
-    @State private var brands: [Brand] = [
-        Brand(name: "Phildar", isChecked: false),
-        Brand(name: "Bergère de France", isChecked: false),
-        Brand(name: "Drops Design", isChecked: false),
-        Brand(name: "Katia", isChecked: false),
-        Brand(name: "Rico Design", isChecked: false),
-        Brand(name: "Rowan", isChecked: false),
-        Brand(name: "Malabrigo", isChecked: false),
-        Brand(name: "Madelinetosh", isChecked: false),
-        Brand(name: "De Rerum Natura", isChecked: false),
-        Brand(name: "Fonty", isChecked: false),
+    @State private var wireColors: [WireColor] = [
+        WireColor(name: "Blanc", color: AppColor.white, isChecked: false),
+        WireColor(name: "Noir", color: "#000000", isChecked: false),
+        WireColor(name: "Marron", color: "#804C4C", isChecked: false),
+        WireColor(name: "Gris", color: "#D9D9D9", isChecked: false),
+        WireColor(name: "Beige", color: "#F1E4E4", isChecked: false),
+        WireColor(name: "Doré", color: "#CDAC40", isChecked: false),
+        WireColor(name: "Rouge", color: "#E45932", isChecked: false),
+        WireColor(name: "Bordeaux", color: "#851D00", isChecked: false),
+        WireColor(name: "Fuschia", color: "#E4099B", isChecked: false),
+        WireColor(name: "Bleu", color: "#5475E1", isChecked: false),
     ]
     
-    private var filteredBrand: Binding<[Brand]> {
+    private var filteredWireColors: Binding<[WireColor]> {
         Binding(
             get: {
                 if search.isEmpty {
-                    return brands
+                    return wireColors
                 }
-                return brands.filter{
+                return wireColors.filter{
                     $0.name.localizedCaseInsensitiveContains(search)
                 }
             },
             set: { newValue in
-                brands = newValue
+                wireColors = newValue
             }
         )
     }
-    
     
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -55,7 +55,7 @@ struct FilterBrandView: View {
                 }
                 .padding(.bottom, 25)
                 HStack {
-                    Text("Marque")
+                    Text("Type de fil")
                         .font(.customFont(name: FontName.raleway, size: 22, weightValue: 700))
                     Spacer()
                     HStack(spacing: 4) {
@@ -70,8 +70,9 @@ struct FilterBrandView: View {
                 SearchBarView(isShowFilter: false, text: $search)
                 ScrollView(.vertical, showsIndicators: false) {
                     VStack(spacing: 0) {
-                        ForEach(filteredBrand) {$brand in
-                            SingleItem_Filter(label: brand.name, isChecked: $brand.isChecked)
+                        ForEach(filteredWireColors) {$wireColor in
+                            SingleItem_Filter(label: wireColor.name, isColor: true, color: wireColor.color, isChecked: $wireColor.isChecked)
+                                .padding(.horizontal, 1)
                             
                             Divider()
                         }
@@ -86,5 +87,5 @@ struct FilterBrandView: View {
 }
 
 #Preview {
-    FilterBrandView()
+    FilterWireColorView()
 }

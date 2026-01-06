@@ -12,4 +12,5 @@ enum AppColor {
     static let primary = "#B5D07E"
     static let secondary = "#7CA072"
     static let textBlack = "#040415"
+    static let white = "#FFFFFF"
 }
