@@ -10,7 +10,7 @@ import SwiftUI
 struct InputCustomView: View {
     var title: String?
     var placeholder: String = ""
-    var isRequired: Bool? = true
+    var isRequired: Bool? = false
     var iconLeft: String?
     var isPasswordInput: Bool = false
 
@@ -20,14 +20,15 @@ struct InputCustomView: View {
     @State private var isShowPassword = false
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 5) {
+        VStack(alignment: .leading, spacing: 8) {
             if let title {
                 HStack {
                     Text(title)
-                        .font(.customFont(name: FontName.raleway, size: 14, weightValue: 700))
+                        .font(.customFont(name: FontName.raleway, size: 15, weightValue: 600))
+                        .foregroundColor(Color(hex: AppColor.textBlack))
                     if isRequired == true {
                         Text("*")
-                            .font(.customFont(name: FontName.raleway, size: 14, weightValue: 700))
+                            .font(.customFont(name: FontName.raleway, size: 15, weightValue: 600))
                     }
                 }
             } else {

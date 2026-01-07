@@ -11,14 +11,14 @@ import SwiftUI
 
 struct CheckCircleCustomView: View {
     var label: String?
-
+    
     @Binding var isChecked: Bool
-
+    
     var body: some View {
         Button(action: {
             isChecked.toggle()
         }) {
-            HStack(spacing: 8) {
+            HStack(spacing: 10) {
                 ZStack {
                     Circle()
                         .fill(isChecked ? Color(hex: AppColor.secondary) : .white)
@@ -31,11 +31,11 @@ struct CheckCircleCustomView: View {
                             .frame(width: 10)
                     }
                 }
-
+                
                 if let label {
                     Text(label)
                         .foregroundColor(Color(hex: AppColor.textBlack))
-                        .font(.customFont(name: FontName.raleway, size: 12, weightValue: 400))
+                        .font(.customFont(name: FontName.raleway, size: 14, weightValue: isChecked == true ? 600 : 400))
                 }
             }
         }
@@ -45,5 +45,5 @@ struct CheckCircleCustomView: View {
 
 #Preview {
     @Previewable @State var isChecked = false
-    CheckCircleCustomView(isChecked: $isChecked)
+    CheckCircleCustomView(label: "Temps réel (dès qu’une annonce correspond)", isChecked: $isChecked)
 }
