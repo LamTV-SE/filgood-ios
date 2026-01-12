@@ -1,13 +1,13 @@
 //
-//  SearchView.swift
+//  FavouriteView.swift
 //  filgood-native
 //
-//  Created by Van Lam on 26/12/25.
+//  Created by Van Lam on 8/1/26.
 //
 
 import SwiftUI
 
-struct SearchView: View {
+struct FavouriteView: View {
     @State private var search = ""
     
     @Namespace private var productNamespace
@@ -15,12 +15,10 @@ struct SearchView: View {
     
     private var mainView: some View {
         VStack(alignment: .leading, spacing: 0) {
-            Text("Rechercher")
+            Text("Favoris")
                 .font(.customFont(name: FontName.raleway, size: 22, weightValue: 600))
                 .foregroundColor(Color(hex: AppColor.textBlack))
                 .padding(.bottom, 12)
-            SearchBarView(backgroundInput: "#F9F9F9", text: $search)
-                .padding(.bottom, 15)
             ScrollView(.vertical, showsIndicators: false) {
                 ListProduct_Search(namespace: productNamespace, selectedProduct: $selectedProduct)
                 Spacer().frame(height: 15)
@@ -50,5 +48,5 @@ struct SearchView: View {
 #Preview {
     @Previewable @State var selectedProduct: Int?
     
-    SearchView(selectedProduct: $selectedProduct)
+    FavouriteView(selectedProduct: $selectedProduct)
 }

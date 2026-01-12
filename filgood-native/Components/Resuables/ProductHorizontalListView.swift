@@ -45,9 +45,13 @@ struct ProductHorizontalListView: View {
             }
         } label: {
             VStack {
-                ImageCustomView(url: "https://api.ia-arena.ruji.fr//storage//profile_pictures//z3ecLNKDz2m3NsSd3M5X8ejhduF4qyW7A7fMFzb8.jpg", width: 179, height: 127, cornerRadius: 10)
-                    .padding(.bottom, 8)
-                    .matchedGeometryEffect(id: "product-image-\(product)", in: namespace)
+                ZStack(alignment: .topTrailing) {
+                    ImageCustomView(url: "https://api.ia-arena.ruji.fr//storage//profile_pictures//z3ecLNKDz2m3NsSd3M5X8ejhduF4qyW7A7fMFzb8.jpg", width: 179, height: 127, cornerRadius: 10)
+                        .padding(.bottom, 8)
+                        .matchedGeometryEffect(id: "product-image-\(product)", in: namespace, isSource: selectedProduct == nil)
+                    Image("heartGray26")
+                        .padding(5)
+                }
                 VStack(spacing: 6) {
                     HStack {
                         Text("Mohair Rose")

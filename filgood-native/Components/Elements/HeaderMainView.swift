@@ -8,18 +8,25 @@
 import SwiftUI
 
 struct HeaderMainView: View {
+    @Environment(\.dismiss) private var dismiss
+    
     let title: String
+    var isTitleLight: Bool = false
+    
     var body: some View {
         VStack(spacing: 0) {
             HStack {
-                Image("arrowLeftBlack16")
+                Button {
+                    dismiss()
+                } label: {
+                    Image("arrowLeftBlack16")
+                }
                 Spacer()
             }
             .padding(.bottom, 25)
             HStack {
                 Text(title)
-                    .font(.customFont(name: FontName.raleway, size: 22, weightValue: 700))
-                    .padding(.bottom, 15)
+                    .font(.customFont(name: FontName.raleway, size: 22, weightValue: isTitleLight ? 600 : 700))
                 Spacer()
             }
         }

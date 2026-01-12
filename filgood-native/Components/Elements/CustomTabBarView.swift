@@ -38,6 +38,7 @@ enum Tab: String, CaseIterable {
 struct CustomTabBarView: View {
     @Binding var selectedTab: Tab
     @Namespace private var animationNamespace
+    @State private var capsuleScale: CGFloat = 1
 
     var body: some View {
         GeometryReader(content: { geo in
@@ -48,15 +49,26 @@ struct CustomTabBarView: View {
                     .fill(Color(hex: AppColor.secondary))
                     .frame(width: 44, height: 44)
                     .clipShape(Circle())
+                    .scaleEffect(x: 1, y: capsuleScale)
+                    .opacity(capsuleScale < 1 ? 0.8 : 1)
                     .offset(x: CGFloat(Tab.allCases.firstIndex(of: selectedTab)!) * tabWidth + (tabWidth - 44) / 2)
                     .matchedGeometryEffect(id: "tabBackground", in: animationNamespace)
 
                 HStack(spacing: 0) {
                     ForEach(Tab.allCases, id: \.self) { tab in
                         Button {
-                            withAnimation(.spring(response: 0.4)) {
-                                selectedTab = tab
-                            }
+                            Task { @MainActor in
+                                   withAnimation(.easeIn(duration: 0.12)) {
+                                       capsuleScale = 0.4
+                                   }
+
+                                   try? await Task.sleep(nanoseconds: 120_000_000)
+
+                                   withAnimation(.spring(response: 0.4, dampingFraction: 0.65)) {
+                                       selectedTab = tab
+                                       capsuleScale = 1
+                                   }
+                               }
                         } label: {
                             Image(selectedTab == tab ? tab.iconActive : tab.icon)
                                 .resizable()
