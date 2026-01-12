@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ProfileView: View {
     @State var isNotficationPush: Bool = false
+    @State private var showLanguageSheet: Bool = false
     
     @ViewBuilder
     private func ArrowItem(title: String) -> some View {
@@ -88,14 +89,18 @@ struct ProfileView: View {
                         .font(.customFont(name: FontName.raleway, size: 13, weightValue: 500))
                         .foregroundColor(Color(hex: "#919191"))
                     VStack(spacing: 18) {
-                        HStack {
-                            Text("Langue")
-                                .font(.customFont(name: FontName.raleway, size: 14, weightValue: 400))
-                                .foregroundColor(Color(hex: AppColor.textBlack).opacity(0.8))
-                            Spacer()
-                            Text("Français")
-                                .font(.customFont(name: FontName.raleway, size: 14, weightValue: 600))
-                                .foregroundColor(Color(hex: AppColor.secondary))
+                        Button {
+                            showLanguageSheet = true
+                        } label: {
+                            HStack {
+                                Text("Langue")
+                                    .font(.customFont(name: FontName.raleway, size: 14, weightValue: 400))
+                                    .foregroundColor(Color(hex: AppColor.textBlack).opacity(0.8))
+                                Spacer()
+                                Text("Français")
+                                    .font(.customFont(name: FontName.raleway, size: 14, weightValue: 600))
+                                    .foregroundColor(Color(hex: AppColor.secondary))
+                            }
                         }
                         Divider()
                         ArrowItem(title: "Paiements")
@@ -126,8 +131,10 @@ struct ProfileView: View {
         }
         .padding(.bottom, 100)
         .padding(.horizontal, 15)
-    }
-}
+        .sheet(isPresented: $showLanguageSheet) {
+            LanguageSheetView()
+        }
+    }}
 
 #Preview {
     ProfileView()
