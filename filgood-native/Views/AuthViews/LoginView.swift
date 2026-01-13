@@ -8,10 +8,17 @@
 import SwiftUI
 
 struct LoginView: View {
-    @State private var email: String = ""
-    @State private var password: String = ""
+    @EnvironmentObject var authVM: AuthViewModel
+    @StateObject private var loginVM: LoginViewModel
+    
+    init(authVM: AuthViewModel) {
+        _loginVM = StateObject(
+            wrappedValue: LoginViewModel(authVM: authVM)
+        )
+    }
+    
     @State private var isRemember: Bool = false
-
+    
     var body: some View {
         ZStack {
             VStack(spacing: 20) {
@@ -25,8 +32,13 @@ struct LoginView: View {
                         .foregroundColor(Color(hex:  AppColor.textBlack))
                     VStack(spacing: 15) {
                         VStack(spacing: 10) {
-                            InputCustomView(title: nil, placeholder: "Entrez votre e-mail", iconLeft: "emailGreen16", isPasswordInput: false, text: $email)
-                            InputCustomView(title: nil, placeholder: "Entrez votre mot de passe", iconLeft: "lockGreen16", isPasswordInput: false, text: $password)
+                            InputCustomView(title: nil, placeholder: "Entrez votre e-mail", iconLeft: "emailGreen16", isPasswordInput: false, text: $loginVM.email)
+                            InputCustomView(title: nil, placeholder: "Entrez votre mot de passe", iconLeft: "lockGreen16", isPasswordInput: false, text: $loginVM.password)
+                            if loginVM.errorMessage != nil {
+                                Text(loginVM.errorMessage!)
+                                    .font(.customFont(name: FontName.raleway, size: 12, weightValue: 600))
+                                    .foregroundColor(Color(hex: AppColor.secondary))
+                            }
                         }
                         HStack {
                             CheckBoxCustomView(label: "Se souvenir de moi", isChecked: $isRemember)
@@ -35,7 +47,9 @@ struct LoginView: View {
                                 .font(.customFont(name: FontName.raleway, size: 12, weightValue: 600))
                                 .foregroundColor(Color(hex: AppColor.secondary))
                         }
-                        ButtonCustomView(title: "Se connecter", icon: nil)
+                        ButtonCustomView(title: "Se connecter", icon: nil, action: {
+                            loginVM.login()
+                        })
                     }
                     HStack(spacing: 12) {
                         Rectangle()
@@ -84,5 +98,5 @@ struct LoginView: View {
 }
 
 #Preview {
-    LoginView()
+    LoginView(authVM: AuthViewModel())
 }

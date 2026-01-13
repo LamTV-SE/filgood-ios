@@ -15,10 +15,13 @@ struct ButtonCustomView: View {
     var backgroundColor: String = AppColor.secondary
     var textColor: String = "#FFFFFF"
     var paddingVertical: CGFloat = 18
+    var action: () -> Void = {}
 
     var body: some View {
         Button {
-            print("Button tapped!")
+            if !(disable ?? false) {
+                action()
+            }
         } label: {
             HStack(spacing: 12) {
                 if let icon {
