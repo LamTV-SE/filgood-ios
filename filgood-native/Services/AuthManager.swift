@@ -10,9 +10,17 @@ import Foundation
 class AuthManager {
     static let shared = AuthManager()
     private init() {}
+    
+    private let tokenKey = "userToken"
 
     var token: String? {
-        get { UserDefaults.standard.string(forKey: "userToken") }
-        set { UserDefaults.standard.set(newValue, forKey: "userToken") }
+        get { UserDefaults.standard.string(forKey: tokenKey) }
+        set {
+            if let token = newValue {
+                UserDefaults.standard.set(newValue, forKey: tokenKey)
+            } else {
+                UserDefaults.standard.removeObject(forKey: tokenKey)
+            }
+        }
     }
 }

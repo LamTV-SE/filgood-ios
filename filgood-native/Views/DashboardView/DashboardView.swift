@@ -9,9 +9,11 @@ import SwiftUI
 
 struct DashboardView: View {
     @EnvironmentObject var authVM: AuthViewModel
+    @StateObject private var homeVM = HomeViewModel()
     
     @State private var selectedTab: Tab = .home
-    @State private var selectedProduct: Int? = nil
+    @State private var selectedProduct: Product? = nil
+    @State private var selectedProductPrefix: String = ""
     @State private var isShowNewAlert: Bool = false
     
     @ViewBuilder
@@ -68,9 +70,9 @@ struct DashboardView: View {
     private var pageView: some View {
         Group {
             switch selectedTab {
-            case .home: HomeView(selectedProduct: $selectedProduct)
-            case .search: SearchView(selectedProduct: $selectedProduct)
-            case .favourite: FavouriteView(selectedProduct: $selectedProduct)
+            case .home: HomeView(vm: homeVM, selectedProduct: $selectedProduct, selectedProductPrefix: $selectedProductPrefix)
+            case .search: SearchView(selectedProduct: $selectedProduct, selectedProductPrefix: $selectedProductPrefix)
+            case .favourite: FavouriteView(selectedProduct: $selectedProduct, selectedProductPrefix: $selectedProductPrefix)
             case .chat: ChatView()
             case .profile: ProfileView()
             }

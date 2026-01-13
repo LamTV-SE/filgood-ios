@@ -34,7 +34,7 @@ class LoginViewModel: ObservableObject {
         errorMessage = nil
         
         WebService.shared.postJSON(
-            url: "https://filgood.ruji.fr/api/auth/login",
+            path: APIEndpoint.login.path,
             body: LoginRequest(email: email, password: password)
         ) { [weak self] (result: Result<APIResponse<LoginResponse>, Error>) in
             guard let self = self else { return }

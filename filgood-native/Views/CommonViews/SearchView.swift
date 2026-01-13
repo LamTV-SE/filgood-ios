@@ -11,7 +11,8 @@ struct SearchView: View {
     @State private var search = ""
     
     @Namespace private var productNamespace
-    @Binding var selectedProduct: Int?
+    @Binding var selectedProduct: Product?
+    @Binding var selectedProductPrefix: String
     
     private var mainView: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -22,7 +23,7 @@ struct SearchView: View {
             SearchBarView(backgroundInput: "#F9F9F9", text: $search)
                 .padding(.bottom, 15)
             ScrollView(.vertical, showsIndicators: false) {
-                ListProduct_Search(namespace: productNamespace, selectedProduct: $selectedProduct)
+                ListProduct_Search(namespace: productNamespace, selectedProduct: $selectedProduct, selectedProductPrefix: $selectedProductPrefix, prefix: "search")
                 Spacer().frame(height: 15)
             }
             .padding(.bottom, 100)
@@ -33,9 +34,9 @@ struct SearchView: View {
     var body: some View {
         ZStack {
             mainView
-
+            
             if let product = selectedProduct {
-                ProductDetailView(product: product, namespace: productNamespace, onClose: {
+                ProductDetailView(selectedProductPrefix: $selectedProductPrefix, product: product, namespace: productNamespace, onClose: {
                     withAnimation(.spring(response: 0.3, dampingFraction: 1)) {
                         selectedProduct = nil
                     }
@@ -48,7 +49,7 @@ struct SearchView: View {
 }
 
 #Preview {
-    @Previewable @State var selectedProduct: Int?
-    
-    SearchView(selectedProduct: $selectedProduct)
+    @Previewable @State var selectedProduct: Product?
+    @Previewable @State var selectedProductPrefix: String = ""
+    SearchView(selectedProduct: $selectedProduct, selectedProductPrefix: $selectedProductPrefix)
 }

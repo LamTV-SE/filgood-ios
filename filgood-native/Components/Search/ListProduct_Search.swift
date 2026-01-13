@@ -9,34 +9,37 @@ import SwiftUI
 
 struct ListProduct_Search: View {
     let namespace: Namespace.ID
-    @Binding var selectedProduct: Int?
+    @Binding var selectedProduct: Product?
+    @Binding var selectedProductPrefix: String
     
-    let products: [Int] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    let products: [Product] = []
     let columns = [
         GridItem(.flexible()),
         GridItem(.flexible())
     ]
+    let prefix: String
     
     var body: some View {
         LazyVGrid(columns: columns) {
-            ForEach(products, id: \.self) {product in
+            ForEach(products, id: \.id) {product in
                 productItemView(product: product)
             }
         }
     }
     
     @ViewBuilder
-    private func productItemView(product: Int) -> some View {
+    private func productItemView(product: Product) -> some View {
         Button {
             withAnimation(.spring(response: 0.45, dampingFraction: 1)) {
                 selectedProduct = product
+                selectedProductPrefix = prefix
             }
         } label: {
             VStack {
                 ZStack(alignment: .topTrailing) {
                     ImageCustomView(url: "https://api.ia-arena.ruji.fr//storage//profile_pictures//z3ecLNKDz2m3NsSd3M5X8ejhduF4qyW7A7fMFzb8.jpg", width: (UIScreen.main.bounds.width - 41)/2 - 12, height: 127, cornerRadius: 10)
                         .padding(.bottom, 8)
-                        .matchedGeometryEffect(id: "product-image-\(product)", in: namespace, isSource: selectedProduct == nil)
+                        .matchedGeometryEffect(id: "\(prefix)-\(product.id)", in: namespace, isSource: selectedProduct == nil)
                     Image("heartGray26")
                         .padding(5)
                 }
@@ -77,5 +80,7 @@ struct ListProduct_Search: View {
 }
 
 #Preview {
-    ListProduct_Search(namespace: Namespace().wrappedValue, selectedProduct: .constant(nil))
+    @Previewable @State var selectedProductPrefix: String = ""
+    
+    ListProduct_Search(namespace: Namespace().wrappedValue, selectedProduct: .constant(nil), selectedProductPrefix: $selectedProductPrefix, prefix: "search")
 }

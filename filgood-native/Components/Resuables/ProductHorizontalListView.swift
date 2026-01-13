@@ -9,14 +9,17 @@ import SwiftUI
 
 struct ProductHorizontalListView: View {
     let namespace: Namespace.ID
-    @Binding var selectedProduct: Int?
-
-    let products: [Int] = [1, 2, 3, 4, 5]
-
+    @Binding var selectedProduct: Product?
+    @Binding var selectedProductPrefix: String
+    
+    let products: [Product]
+    let title: String
+    let prefix: String
+    
     var body: some View {
         VStack(spacing: 8) {
             HStack {
-                Text("Près de chez vous")
+                Text(title)
                     .font(.customFont(name: FontName.raleway, size: 16, weightValue: 600))
                     .foregroundStyle(Color(hex:  AppColor.textBlack))
                 Spacer()
@@ -24,51 +27,54 @@ struct ProductHorizontalListView: View {
                     .font(.customFont(name: FontName.raleway, size: 14, weightValue: 700))
                     .foregroundStyle(Color(hex: AppColor.secondary))
             }
-
+            
             ScrollView(.horizontal, showsIndicators: false) {
                 LazyHStack(spacing: 11) {
-                    ForEach(products, id: \.self) { product in
+                    ForEach(products, id: \.id) { product in
                         productItemView(product: product)
-                            .id(product)
+                            .id(product.id)
                     }
                 }
             }
             .frame(height: 214)
         }
     }
-
+    
     @ViewBuilder
-    private func productItemView(product: Int) -> some View {
+    private func productItemView(product: Product) -> some View {
         Button {
             withAnimation(.spring(response: 0.45, dampingFraction: 1)) {
                 selectedProduct = product
+                selectedProductPrefix = prefix
             }
         } label: {
             VStack {
                 ZStack(alignment: .topTrailing) {
-                    ImageCustomView(url: "https://api.ia-arena.ruji.fr//storage//profile_pictures//z3ecLNKDz2m3NsSd3M5X8ejhduF4qyW7A7fMFzb8.jpg", width: 179, height: 127, cornerRadius: 10)
+                    ImageCustomView(url: product.images[0].fullURL, width: 179, height: 127, cornerRadius: 10)
                         .padding(.bottom, 8)
-                        .matchedGeometryEffect(id: "product-image-\(product)", in: namespace, isSource: selectedProduct == nil)
+                        .matchedGeometryEffect(id: "\(prefix)-\(product.id)", in: namespace, isSource: selectedProduct == nil)
                     Image("heartGray26")
                         .padding(5)
                 }
                 VStack(spacing: 6) {
                     HStack {
-                        Text("Mohair Rose")
+                        Text(product.title)
                             .font(.customFont(name: FontName.raleway, size: 14, weightValue: 600))
                             .foregroundColor(Color(hex:  AppColor.textBlack))
+                            .frame(width: 100, alignment: .leading)
+                            .lineLimit(1)
                         Spacer()
-                        Text("8€")
+                        Text(product.price + "€")
                             .font(.customFont(name: FontName.raleway, size: 14, weightValue: 600))
                             .foregroundColor(Color(hex: AppColor.secondary))
                     }
                     HStack(spacing: 8) {
-                        Text("3 pelotes")
+                        Text("\(product.availableStock)\(product.availableStock > 1 ? " pelotes" : " pelote")")
                             .font(.customFont(name: FontName.raleway, size: 13, weightValue: 400))
                             .foregroundColor(Color(hex: "#6D6D6D"))
                         HStack(spacing: 1) {
                             Image("locationPinGray14")
-                            Text("2 km")
+                            Text("\(product.formattedDistance)")
                                 .font(.customFont(name: FontName.raleway, size: 13, weightValue: 400))
                                 .foregroundColor(Color(hex: "#6D6D6D"))
                         }
@@ -89,6 +95,7 @@ struct ProductHorizontalListView: View {
 }
 
 #Preview(traits: .sizeThatFitsLayout) {
-    ProductHorizontalListView(namespace: Namespace().wrappedValue, selectedProduct: .constant(nil))
+    @Previewable @State var selectedProductPrefix: String = ""
+    ProductHorizontalListView(namespace: Namespace().wrappedValue, selectedProduct: .constant(nil), selectedProductPrefix: $selectedProductPrefix, products: [Product.mock], title: "Près de chez vous", prefix: "near-by")
         .padding()
 }

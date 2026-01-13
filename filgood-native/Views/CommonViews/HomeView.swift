@@ -8,10 +8,13 @@
 import SwiftUI
 
 struct HomeView: View {
+    @ObservedObject var vm: HomeViewModel
+    
     @State private var searchValue: String = ""
 
     @Namespace private var productNamespace
-    @Binding var selectedProduct: Int?
+    @Binding var selectedProduct: Product?
+    @Binding var selectedProductPrefix: String
 
     private var headerView: some View {
         VStack(spacing: 29) {
@@ -51,10 +54,15 @@ struct HomeView: View {
                         .padding(.bottom, 23)
                     ScrollView(.vertical, showsIndicators: false) {
                         VStack(spacing: 30) {
-                            ProductHorizontalListView(namespace: productNamespace, selectedProduct: $selectedProduct)
-//                            ProductHorizontalListView()
+                            ProductHorizontalListView(namespace: productNamespace, selectedProduct: $selectedProduct, selectedProductPrefix: $selectedProductPrefix, products: vm.nearByProducts, title: "Près de chez vous", prefix: "near-by")
+                            ProductHorizontalListView(namespace: productNamespace, selectedProduct: $selectedProduct, selectedProductPrefix: $selectedProductPrefix, products: vm.topPurchaseProducts, title: "Tendances", prefix: "top-purchase")
+                            if let errorMessage = vm.errorMessage {
+                                Text(errorMessage)
+                                    .foregroundColor(.red)
+                            }
                         }
                     }
+                    .padding(.bottom, 100)
                     .background(Color(hex: "#FAFAFA"))
                 }
                 .padding(.top, 35)
@@ -77,7 +85,7 @@ struct HomeView: View {
             mainView
 
             if let product = selectedProduct {
-                ProductDetailView(product: product, namespace: productNamespace, onClose: {
+                ProductDetailView(selectedProductPrefix: $selectedProductPrefix,product: product, namespace: productNamespace, onClose: {
                     withAnimation(.spring(response: 0.3, dampingFraction: 1)) {
                         selectedProduct = nil
                     }
@@ -86,10 +94,14 @@ struct HomeView: View {
             }
         }
         .ignoresSafeArea(.all, edges: .bottom)
+        .onAppear {
+            vm.getProductHome()
+        }
     }
 }
 
 #Preview {
-    @Previewable @State var selectedProduct: Int?
-    HomeView(selectedProduct: $selectedProduct)
+    @Previewable @State var selectedProduct: Product?
+    @Previewable @State var selectedProductPrefix: String = ""
+    HomeView(vm: HomeViewModel(), selectedProduct: $selectedProduct, selectedProductPrefix: $selectedProductPrefix)
 }

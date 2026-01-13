@@ -8,16 +8,25 @@
 import SwiftUI
 
 struct ProductDetailView: View {
-    let product: Int
+    @StateObject var vm = ProductDetailViewModel()
+    
+    @Binding var selectedProductPrefix: String
+    
+    let product: Product
     let namespace: Namespace.ID
     let onClose: () -> Void
     
     @State private var animateContent = false
     @State private var currentImage: Int? = 0
     
+    private var displayProduct: Product {
+        vm.productDetail ?? product
+    }
+    
     private let screenWidth = UIScreen.main.bounds.width
-    private let totalImages = 3
-    private let images: [String] = ["https://api.ia-arena.ruji.fr//storage//profile_pictures//z3ecLNKDz2m3NsSd3M5X8ejhduF4qyW7A7fMFzb8.jpg", "https://api.ia-arena.ruji.fr/storage/fakes/fake_7.jpeg", "https://api.ia-arena.ruji.fr/storage/profile_pictures/eLZ8StTyTHGTxmey8srJqp4t6xu6YchqL4rYD4az.jpg"]
+    private var images: [String] {
+        displayProduct.images.map { $0.fullURL }
+    }
     
     var body: some View {
         VStack(spacing: 0) {
@@ -58,6 +67,7 @@ struct ProductDetailView: View {
         })
         .ignoresSafeArea(.all, edges: .vertical)
         .onAppear {
+            vm.getProductDetail(id: product.id)
             withAnimation(.easeOut(duration: 0.3)) {
                 animateContent = true
             }
@@ -81,7 +91,7 @@ struct ProductDetailView: View {
             .scrollPosition(id: $currentImage)
             .frame(height: 327)
             .padding(.bottom, -28)
-            .matchedGeometryEffect(id: "product-image-\(product)", in: namespace)
+            .matchedGeometryEffect(id: "\(selectedProductPrefix)-\(displayProduct.id)", in: namespace)
             .transition(.opacity)
             
             HStack {
@@ -109,7 +119,7 @@ struct ProductDetailView: View {
             .padding(.top, 60)
             .padding(.horizontal, 15)
             HStack(spacing: 7) {
-                ForEach(0..<totalImages, id: \.self) { index in
+                ForEach(0..<images.count, id: \.self) { index in
                     Capsule()
                         .fill(currentImage == index ? .white : .white.opacity(0.6))
                         .frame(width: currentImage == index ? 18 : 12, height: 6)
@@ -127,24 +137,24 @@ struct ProductDetailView: View {
     @ViewBuilder
     private func titleAndQuantityView() -> some View {
         HStack {
-            Text("Mohair Rose")
+            Text(displayProduct.title)
                 .font(.customFont(name: FontName.raleway, size: 23, weightValue: 600))
                 .foregroundStyle(Color(hex:  AppColor.textBlack))
             Spacer()
-            Text("7€")
+            Text("\(displayProduct.price)€")
                 .font(.customFont(name: FontName.raleway, size: 23, weightValue: 700))
                 .foregroundStyle(Color(hex: AppColor.secondary))
         }
         HStack(spacing: 15) {
             HStack(spacing: 5) {
                 Image("locationPinGreen16")
-                Text("3 km")
+                Text(displayProduct.formattedDistance)
                     .font(.customFont(name: FontName.raleway, size: 14, weightValue: 500))
                     .foregroundColor(Color(hex: "#333333"))
             }
             HStack(spacing: 5) {
                 Image("paintGreen16")
-                Text("Sauge")
+                Text(displayProduct.colors[0].name)
                     .font(.customFont(name: FontName.raleway, size: 14, weightValue: 500))
                     .foregroundColor(Color(hex: "#333333"))
             }
@@ -178,9 +188,10 @@ struct ProductDetailView: View {
     
     @ViewBuilder
     private func informationView() -> some View {
-        Text("Lot de 3 pelotes Mohair couleur Sauge, bain #314. Jamais utilisées. Idéal pour un cardigan léger. Trocs bienvenus (alpaga gris, coton écru).")
+        Text(displayProduct.description)
             .font(.customFont(name: FontName.raleway, size: 14, weightValue: 400))
             .foregroundColor(Color(hex: "#7E7F7E"))
+            .frame(maxWidth: .infinity, alignment: .leading)
             .lineSpacing(3)
         VStack(spacing: 20) {
             HStack(spacing: 26) {
@@ -188,7 +199,7 @@ struct ProductDetailView: View {
                     Text("Marque")
                         .font(.customFont(name: FontName.raleway, size: 13, weightValue: 400))
                         .foregroundColor(Color(hex: "#7E7F7E"))
-                    Text("Drops")
+                    Text(displayProduct.brands.first?.name ?? "--")
                         .font(.customFont(name: FontName.raleway, size: 14, weightValue: 500))
                         .foregroundColor(Color(hex:  AppColor.textBlack))
                 }
@@ -197,7 +208,7 @@ struct ProductDetailView: View {
                     Text("Matière")
                         .font(.customFont(name: FontName.raleway, size: 13, weightValue: 400))
                         .foregroundColor(Color(hex: "#7E7F7E"))
-                    Text("72% Mohair")
+                    Text(displayProduct.yarnTypes[0].name)
                         .font(.customFont(name: FontName.raleway, size: 14, weightValue: 500))
                         .foregroundColor(Color(hex:  AppColor.textBlack))
                 }
@@ -208,7 +219,7 @@ struct ProductDetailView: View {
                     Text("Poids")
                         .font(.customFont(name: FontName.raleway, size: 13, weightValue: 400))
                         .foregroundColor(Color(hex: "#7E7F7E"))
-                    Text("50g")
+                    Text("\(displayProduct.availableStock)g")
                         .font(.customFont(name: FontName.raleway, size: 14, weightValue: 500))
                         .foregroundColor(Color(hex:  AppColor.textBlack))
                 }
@@ -217,7 +228,7 @@ struct ProductDetailView: View {
                     Text("Remise")
                         .font(.customFont(name: FontName.raleway, size: 13, weightValue: 400))
                         .foregroundColor(Color(hex: "#7E7F7E"))
-                    Text("Main propre ou envoi")
+                    Text(displayProduct.promotion ?? "--")
                         .font(.customFont(name: FontName.raleway, size: 14, weightValue: 500))
                         .foregroundColor(Color(hex: AppColor.textBlack))
                 }
@@ -245,9 +256,20 @@ struct ProductDetailView_Previews: PreviewProvider {
     @Namespace static var namespace
     
     static var previews: some View {
+        // Tạo state cục bộ cho preview
+        ProductDetailViewPreviewContainer()
+            .previewDisplayName("Product Detail View")
+    }
+}
+
+private struct ProductDetailViewPreviewContainer: View {
+    @State private var selectedProductPrefix: String = ""
+    
+    var body: some View {
         ProductDetailView(
-            product: 1,
-            namespace: namespace,
+            selectedProductPrefix: $selectedProductPrefix,
+            product: Product.mock,
+            namespace: ProductDetailView_Previews.namespace,
             onClose: {}
         )
     }

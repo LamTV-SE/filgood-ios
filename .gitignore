@@ -6,3 +6,6 @@
 //
 
 Configurations/*.xcconfig
+
+# App config
+AppConfig.swift
