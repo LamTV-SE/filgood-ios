@@ -57,13 +57,7 @@ struct DashboardView: View {
     }
     
     var body: some View {
-        ZStack {
-            LoginView(authVM: authVM)
-                .offset(x: authVM.isAuthenticated ? -UIScreen.main.bounds.width : 0)
-            mainContent()
-                .offset(x: authVM.isAuthenticated ? 0 : UIScreen.main.bounds.width)
-        }
-        .animation(.easeInOut(duration: 0.3), value: authVM.isAuthenticated)
+        mainContent()
     }
     
     @ViewBuilder
@@ -83,5 +77,4 @@ struct DashboardView: View {
 
 #Preview {
     DashboardView()
-        .environmentObject(AuthViewModel())
 }
