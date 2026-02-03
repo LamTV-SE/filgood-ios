@@ -14,7 +14,12 @@ class HomeViewModel: ObservableObject {
     @Published var nearByProducts: [Product] = []
     @Published var topPurchaseProducts: [Product] = []
     
+    private(set) var hasLoaded: Bool = false
+    
     func getProductHome() {
+        guard !hasLoaded else { return }
+        
+        hasLoaded = true
         isLoading = true
         errorMessage = nil
         
